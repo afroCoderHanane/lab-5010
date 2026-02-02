@@ -51,7 +51,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>conservatory.Conservatory</mainClass>
+                            <mainClass>conservatory.Driver</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
