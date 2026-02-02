@@ -154,14 +154,65 @@ A hungry bird is an unhappy bird. The Conservatory can automatically generate a 
 
 ---
 
-## 🧪 Ensuring It Works (Testing)
+## 🧪 Testing Plan
 
-We didn't just guess that this would work; we proved it. We used **JUnit** to create a suite of strict tests:
+To ensure the system works as expected, we have defined the following test cases. Each case targets a specific condition with example input and expected output. We didn't just guess that this would work; we proved it. We used **JUnit** to create a suite of strict tests:
 
 *   **Boundary Testing**: We tried to add a 6th bird to an aviary to make sure the system refused it.
 *   **Safety Testing**: We tried to put a Hawk in with a Dove. The system correctly blocked the move.
 *   **Logic Testing**: We calculated food orders for complex mixes of birds to ensure the math was perfect.
 *   **Search Testing**: We verified that if you stick a Parrot in "Aviary 4", the system can find it instantly.
+
+### 1. Bird Creation Tests
+
+| Test ID | Condition | Example Data | Expected Result |
+|---------|-----------|--------------|-----------------|
+| TC-01 | Create valid BirdOfPrey | Hawk, 2 wings, [FISH, SMALL_MAMMALS] | Success (Object created) |
+| TC-02 | BirdOfPrey with <2 foods | Eagle with [FISH] only | `IllegalArgumentException` |
+| TC-03 | BirdOfPrey with >4 foods | Osprey with 5 foods | `IllegalArgumentException` |
+| TC-04 | Create extinct FlightlessBird | Moa, extinct=true | `isExtinct()` returns true |
+| TC-05 | Parrot with valid vocabulary | Gray Parrot, vocab=50 | Success |
+| TC-06 | Parrot with vocab >100 | Parakeet, vocab=150 | `IllegalArgumentException` |
+| TC-07 | Shorebird with water source | Puffin, "Pacific Ocean" | `getBodyOfWater()` returns "Pacific Ocean" |
+| TC-08 | Null bird type | null type | `IllegalArgumentException` |
+| TC-09 | Negative vocabulary | Parrot, vocab=-1 | `IllegalArgumentException` |
+| TC-10 | Empty body of water | Shorebird, "" | `IllegalArgumentException` |
+
+### 2. Aviary Tests
+
+| Test ID | Condition | Example Data | Expected Result |
+|---------|-----------|--------------|-----------------|
+| TC-11 | Add to empty aviary | Empty aviary + Duck | `canAddBird()` returns true |
+| TC-12 | Add extinct bird | Moa to any aviary | `canAddBird()` returns false |
+| TC-13 | Aviary capacity limit | Add 6th bird | `canAddBird()` returns false |
+| TC-14 | Mix BirdOfPrey with Pigeon | Hawk aviary + Dove | `canAddBird()` returns false |
+| TC-15 | Mix FlightlessBird with Owl | Emu aviary + Owl | `canAddBird()` returns false |
+| TC-16 | Mix Waterfowl with Parrot | Duck aviary + Parrot | `canAddBird()` returns false |
+| TC-17 | Mix compatible birds | Owl aviary + Pigeon | `canAddBird()` returns true |
+| TC-18 | Mix Shorebird with Pigeon | Puffin + Dove | `canAddBird()` returns true |
+| TC-19 | BirdsOfPrey together | Hawk + Eagle | `canAddBird()` returns true |
+| TC-20 | Waterfowl together | Duck + Swan | `canAddBird()` returns true |
+
+### 3. Conservatory Tests
+
+| Test ID | Condition | Example Data | Expected Result |
+|---------|-----------|--------------|-----------------|
+| TC-21 | Rescue new bird | Conservatory + Duck | Bird added to `rescuedBirds` |
+| TC-22 | Rescue null bird | null | `IllegalArgumentException` |
+| TC-23 | Rescue same bird twice | Duck twice | `IllegalStateException` |
+| TC-24 | Assign to new aviary | Empty conservatory + Duck | New aviary created, bird assigned |
+| TC-25 | Assign compatible birds | Duck then Swan | Assigned to same aviary |
+| TC-26 | Assign incompatible | Hawk then Dove | Assigned to separate aviaries |
+| TC-27 | Assign extinct bird | Moa | `IllegalStateException` |
+| TC-28 | Maximum 20 aviaries | 21st aviary needed | `IllegalStateException` |
+| TC-29 | Calculate food - single | Duck in aviary | Returns map with correct quantities |
+| TC-30 | Calculate food - overlap | Multiple birds, shared foods | Returns map with summed quantities |
+| TC-31 | Lookup bird in aviary | Duck in Aviary 1 | Returns "Aviary 1" message |
+| TC-32 | Lookup bird not found | Non-existent bird | Returns "not found" message |
+| TC-33 | Invalid aviary sign | `getAviarySign(999)` | `IllegalArgumentException` |
+| TC-34 | Print empty map | Empty conservatory | Returns "No aviaries" |
+| TC-35 | Print map with aviaries | 2 aviaries | Returns string containing both |
+| TC-36 | Print index alphabetically | Hawk, Duck, Eagle | Returns list ordered: Duck < Eagle < Hawk |
 
 ---
 
