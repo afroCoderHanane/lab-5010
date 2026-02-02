@@ -1,6 +1,10 @@
 # Bird Conservatory Management System
 
-## 👋 Welcome
+**Author:** Gbadamassi Hanane  
+**Class:** CS5010 Lab 1
+
+
+## Welcome
 
 Welcome to the **Bird Conservatory Management System**! This application is designed to help conservationists, zookeepers, and bird enthusiasts manage a complex sanctuary for our feathered friends. Whether you're rescuing a stray duck or finding a home for a majestic eagle, this system handles the logistics so you can focus on the birds.
 
@@ -8,9 +12,17 @@ The system is built to track various bird species, manage their dietary needs, a
 
 ---
 
-## 🗺️ System Architecture
+## System Architecture
 
-To help you visualize how the pieces fit together, here is a diagram of the system's "DNA". It shows how we define birds, how aviaries hold them, and how the conservatory manages it all.
+The Bird Conservatory System is designed around a modular object-oriented architecture that mimics the real-world hierarchy of a bird sanctuary.
+
+### Core Components
+1.  **Bird Hierarchy**: At the foundation is the abstract `Bird` class, which defines the common contractual obligations for all species (eating, describing themselves, etc.). Specific families like `BirdOfPrey` or `Waterfowl` extend this to add specialized behaviors (like hunting or swimming) and data (like water sources).
+2.  **Aviary Management**: The `Aviary` class acts as a container with strict admission policies. It encapsulates the logic for "who can live with whom," preventing invalid state transitions (like adding a predator to a room of prey).
+3.  **Conservatory Coordinator**: The `Conservatory` class serves as the facade for the entire system. It orchestrates the interaction between birds and aviaries, handling the high-level logic of "rescue," "assign," and "feed" so the user doesn't have to micromanage individual objects.
+
+To help you visualize how these pieces fit together, here is a diagram of the system's "DNA":
+
 
 ```mermaid
 classDiagram
@@ -115,7 +127,7 @@ classDiagram
 
 ---
 
-## 🦜 Meet the Birds
+## Meet the Birds
 
 Our system isn't just a database; it understands that every bird is unique.
 
@@ -128,15 +140,15 @@ At the heart of the system is the **Bird** class. Every bird has some basic trai
 - **Extinct Status**: Sadly, we sometimes track birds that are no longer with us, like the Great Auk.
 
 We then have tailored families:
-*   **🦅 Birds of Prey**: Hunters like Hawks and Eagles. They contain special logic to ensure they aren't housed with potential "snacks".
-*   **🌊 Water Birds**: Includes **Waterfowl** (Ducks/Swans) and **Shorebirds** (Puffins), which also track which body of water they love.
-*   **🦜 Parrots**: Our chatty friends! We specifically track how many words they know and their favorite saying.
-*   **🏃 Flightless Birds**: Emus, Kiwis, and Moas. They live on the ground.
-*   **🦉 Owls** and **🕊️ Pigeons**: Independent groups with their own specific behaviors.
+*   **Birds of Prey**: Hunters like Hawks and Eagles. They contain special logic to ensure they aren't housed with potential "snacks".
+*   **Water Birds**: Includes **Waterfowl** (Ducks/Swans) and **Shorebirds** (Puffins), which also track which body of water they love.
+*   **Parrots**: Our chatty friends! We specifically track how many words they know and their favorite saying.
+*   **Flightless Birds**: Emus, Kiwis, and Moas. They live on the ground.
+*   **Owls** and **Pigeons**: Independent groups with their own specific behaviors.
 
 ---
 
-## 🏠 The Conservatory: A Simulation
+## The Conservatory: A Simulation
 
 The **Conservatory** acts as the central hub. Think of it as the "Brain" of the operation.
 
@@ -154,7 +166,7 @@ A hungry bird is an unhappy bird. The Conservatory can automatically generate a 
 
 ---
 
-## 🧪 Testing Plan
+## Testing Plan
 
 To ensure the system works as expected, we have defined the following test cases. Each case targets a specific condition with example input and expected output. We didn't just guess that this would work; we proved it. We used **JUnit** to create a suite of strict tests:
 
@@ -216,7 +228,7 @@ To ensure the system works as expected, we have defined the following test cases
 
 ---
 
-## 💡 Why We Built It This Way
+## Why We Built It This Way
 
 ### Why inheritance?
 We used a hierarchy (e.g., `Duck` extends `Waterfowl` extends `WaterBird` extends `Bird`) because it mirrors biology. It allows us to write code once (like "all birds eat") and reuse it, while still allowing specific overrides (like "Parrots speak").
@@ -259,3 +271,12 @@ lab-5010/
 │   └── design_document.md
 └── pom.xml
 ```
+
+---
+
+## Conclusion
+
+The Bird Conservatory Management System provides a robust, object-oriented solution for managing the complexities of a bird sanctuary. By leveraging encapsulation, inheritance, and clear separation of concerns (Aviary vs. Conservatory), the design ensures that business rules—like not mixing prey with predators—are enforced at the structural level rather than relying on manual oversight.
+
+The system is extensible; adding new bird types or food requirements involves creating new classes or enum values rather than rewriting core logic. The comprehensive test suite guarantees reliability, making this a safe and scalable tool for conservation efforts.
+
